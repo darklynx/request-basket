@@ -697,7 +697,7 @@ const (
         <div class="modal-body">
           <div class="form-group">
             <label for="basket_forward_url" class="control-label">Forward URL:</label>
-            <input type="input" class="form-control" id="basket_forward_url">
+            <input type="input" class="form-control" id="basket_forward_url" {{if not .AllowForward}} disabled {{end}}>
           </div>
           <div class="checkbox">
             <label><input type="checkbox" id="basket_insecure_tls">

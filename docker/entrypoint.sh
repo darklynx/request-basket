@@ -54,6 +54,10 @@ if [ -n "$THEME" ]; then
     args="$args -theme $THEME"
 fi
 
+if [ -n "$ALLOWFORWARD" ]; then
+    args="$args -allowforward $ALLOWFORWARD"
+fi
+
 cmd="/bin/rbaskets $args"
 echo "Executing: $cmd"
 exec $cmd

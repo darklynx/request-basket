@@ -21,6 +21,7 @@ const (
 	serviceName         = "request-baskets"
 	basketNamePattern   = `^[\w\d\-_\.]{1,250}$`
 	sourceCodeURL       = "https://github.com/darklynx/request-baskets"
+	defaultAllowForward = false
 )
 
 // ServerConfig describes server configuration.
@@ -39,6 +40,7 @@ type ServerConfig struct {
 	Mode         string
 	Theme        string
 	ThemeCSS     template.HTML
+	AllowForward bool
 }
 
 type arrayFlags []string
@@ -72,6 +74,7 @@ func CreateConfig() *ServerConfig {
 	var theme = flag.String("theme", ThemeStandard, fmt.Sprintf(
 		"CSS theme for web UI, supported values: %s, %s, %s",
 		ThemeStandard, ThemeAdaptive, ThemeFlatly))
+	var allowForward = flag.Bool("allowforward", defaultAllowForward, "Allow forwards for basket configs (default false)")
 
 	var baskets arrayFlags
 	flag.Var(&baskets, "basket", "Name of a basket to auto-create during service startup (can be specified multiple times)")
@@ -97,7 +100,9 @@ func CreateConfig() *ServerConfig {
 		PathPrefix:   normalizePrefix(*prefix),
 		Mode:         *mode,
 		Theme:        *theme,
-		ThemeCSS:     toThemeCSS(*theme)}
+		ThemeCSS:     toThemeCSS(*theme),
+		AllowForward: *allowForward,
+	}
 }
 
 func normalizePrefix(prefix string) string {
