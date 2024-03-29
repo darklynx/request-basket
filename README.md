@@ -109,6 +109,8 @@ Usage of bin/request-baskets:
       Service mode: "public" - any visitor can create a new basket, "restricted" - baskets creation requires master token (default "public")
   -theme string
       CSS theme for web UI, supported values: standard, adaptive, flatly (default "standard")
+  -allowforward boolean
+      enable/disable forwarding of requests for all buckets (default "false")
 ```
 
 ### Parameters
@@ -128,6 +130,7 @@ List of command line parameters with corresponding ENVVAR for [docker container]
  * `-prefix` *URL path prefix* (`PATHPREFIX`) - allows to host API and web-UI of baskets service under a sub-path instead of domain ROOT
  * `-mode` *mode* (`MODE`) - defines service operation mode: `public` - when any visitor can create a new basket, or `restricted` - baskets creation requires master token
  * `-theme` *theme* (`THEME`) - CSS theme for web UI, supported values: `standard`, `adaptive`, `flatly`
+ * `-allowforward` *allow forward* (`ALLOWFORWARD`) - enable/disable forwarding of requests for all buckets
 
 ## Usage
 
@@ -142,6 +145,7 @@ To view collected requests and manage basket:
  * Use [RESTful API](https://github.com/darklynx/request-baskets/blob/master/doc/rbaskets-openapi.yaml) exposed at `http://localhost:55555/api/baskets/<basket_name>/...`
 
 It is possible to forward all incoming HTTP requests to arbitrary URL by configuring basket via web UI or RESTful API.
+Because of https://github.com/darklynx/request-baskets/issues/91 forwarding is disabled by default. Forwarding can be enabled by setting allowforward commandline parameter to true.
 
 ### Bolt database
 

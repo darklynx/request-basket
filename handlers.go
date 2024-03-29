@@ -367,11 +367,12 @@ func ForwardToWeb(w http.ResponseWriter, r *http.Request, ps httprouter.Params) 
 }
 
 type TemplateData struct {
-	Prefix   string
-	Version  *Version
-	ThemeCSS template.HTML
-	Basket   string
-	Data     interface{}
+	Prefix       string
+	Version      *Version
+	ThemeCSS     template.HTML
+	Basket       string
+	Data         interface{}
+	AllowForward bool
 }
 
 // WebIndexPage handles HTTP request to render index page
@@ -387,9 +388,9 @@ func WebBasketPage(w http.ResponseWriter, r *http.Request, ps httprouter.Params)
 		case serviceOldAPIPath:
 			// admin page to access all baskets
 			w.Header().Set("Content-Type", "text/html; charset=utf-8")
-			basketsPageTemplate.Execute(w, TemplateData{Prefix: serverConfig.PathPrefix, Version: version, ThemeCSS: serverConfig.ThemeCSS})
+			basketsPageTemplate.Execute(w, TemplateData{Prefix: serverConfig.PathPrefix, Version: version, ThemeCSS: serverConfig.ThemeCSS, AllowForward: serverConfig.AllowForward})
 		default:
-			basketPageTemplate.Execute(w, TemplateData{Prefix: serverConfig.PathPrefix, Version: version, ThemeCSS: serverConfig.ThemeCSS, Basket: name})
+			basketPageTemplate.Execute(w, TemplateData{Prefix: serverConfig.PathPrefix, Version: version, ThemeCSS: serverConfig.ThemeCSS, Basket: name, AllowForward: serverConfig.AllowForward})
 		}
 	} else {
 		http.Error(w, "Basket name does not match pattern: "+validBasketName.String(), http.StatusBadRequest)
@@ -407,7 +408,7 @@ func AcceptBasketRequests(w http.ResponseWriter, r *http.Request) {
 
 		// forward request if configured and it's a first forwarding
 		config := basket.Config()
-		if len(config.ForwardURL) > 0 && r.Header.Get(DoNotForwardHeader) != "1" {
+		if serverConfig.AllowForward && len(config.ForwardURL) > 0 && r.Header.Get(DoNotForwardHeader) != "1" {
 			if config.ProxyResponse {
 				forwardAndProxyResponse(w, request, config, name)
 				return
