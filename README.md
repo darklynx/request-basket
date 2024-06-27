@@ -241,6 +241,10 @@ $ docker run --name rbaskets -d -p 55555:55555 request-baskets
 $ docker logs rbaskets
 ```
 
+### Run container in Azure
+
+See [bicep folder](./bicep) to deploy the container inside an Azure App Service with [Bicep](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/overview?tabs=bicep). This folder structure also supports [Azure Deployment Environments](https://learn.microsoft.com/en-us/azure/deployment-environments/overview-what-is-azure-deployment-environments).
+
 ### Cleanup
 
 Stop and delete docker container:

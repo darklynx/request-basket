@@ -1,0 +1,17 @@
+# yaml-language-server: $schema=https://github.com/Azure/deployment-environments/releases/download/2022-11-11-preview/manifest.schema.json
+name: BasketApp
+summary: Deploy the Request Basket container app.
+description: Deploys a Container App within an App Service.
+templatePath: main.bicep
+runner: Bicep
+parameters:
+  - id: "projectName"
+    name: "Project Name"
+    description: "The basket project name"
+    type: "string"
+    default: "hellobasket"
+  - id: "basketAdminToken"
+    name: "Basket Admin Token"
+    description: "The Basket Admin Token"
+    type: "string"
+    default: "yolo"
